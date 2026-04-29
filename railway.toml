@@ -4,4 +4,4 @@ builder = "NIXPACKS"
 
 [deploy]
 startCommand = "npm start"
-releaseCommand = "npm run migrate"
+releaseCommand = "npm run build && npm run migrate"
