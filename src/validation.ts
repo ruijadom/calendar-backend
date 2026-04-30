@@ -42,9 +42,10 @@ export const createEventBodySchema = z
 		clinicName: z.string().optional().nullable(),
 		isVideoConsultation: z.boolean().optional().default(false),
 		videoLink: z
-			.union([z.string().url(), z.literal("")])
+			.union([z.string(), z.literal("")])
 			.optional()
 			.nullable()
+			.transform((v) => (typeof v === "string" ? v.trim() : v))
 			.transform((v) => (v === "" ? undefined : v)),
 		metadata: z.record(z.unknown()).optional().default({}),
 	})
@@ -85,9 +86,10 @@ export const patchEventBodySchema = z
 		clinicName: z.string().optional().nullable(),
 		isVideoConsultation: z.boolean().optional(),
 		videoLink: z
-			.union([z.string().url(), z.literal("")])
+			.union([z.string(), z.literal("")])
 			.optional()
 			.nullable()
+			.transform((v) => (typeof v === "string" ? v.trim() : v))
 			.transform((v) => (v === "" ? undefined : v)),
 		metadata: z.record(z.unknown()).optional(),
 	})

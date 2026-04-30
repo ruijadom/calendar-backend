@@ -71,11 +71,11 @@ describe("createEventBodySchema", () => {
 		expect(r.success).toBe(false);
 	});
 
-	it("accepts video with https link", () => {
+	it("accepts video link identifier", () => {
 		const r = createEventBodySchema.safeParse({
 			...validBase,
 			isVideoConsultation: true,
-			videoLink: "https://meet.example.com/room",
+			videoLink: "m-ad66771e471948c6b73a020af8b37799",
 		});
 		expect(r.success).toBe(true);
 	});
