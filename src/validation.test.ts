@@ -52,6 +52,7 @@ describe("createEventBodySchema", () => {
 		const r = createEventBodySchema.safeParse(validBase);
 		expect(r.success).toBe(true);
 		if (r.success) {
+			expect(r.data.status).toBe("pending");
 			expect(r.data.isVideoConsultation).toBe(false);
 			expect(r.data.metadata).toEqual({});
 		}
@@ -98,6 +99,16 @@ describe("patchEventBodySchema", () => {
 
 	it("rejects unknown keys (strict)", () => {
 		const r = patchEventBodySchema.safeParse({ title: "x", extraField: 1 });
+		expect(r.success).toBe(false);
+	});
+
+	it("accepts status update", () => {
+		const r = patchEventBodySchema.safeParse({ status: "confirmed" });
+		expect(r.success).toBe(true);
+	});
+
+	it("rejects invalid status update", () => {
+		const r = patchEventBodySchema.safeParse({ status: "active" });
 		expect(r.success).toBe(false);
 	});
 });

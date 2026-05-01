@@ -60,10 +60,11 @@ describe.skipIf(!shouldRunIntegration)("HTTP + Postgres (integration)", () => {
 			payload: JSON.stringify(validEventBody()),
 		});
 		expect(create.statusCode).toBe(201);
-		const created = JSON.parse(create.body) as { id: string };
+		const created = JSON.parse(create.body) as { id: string; status: string };
 		expect(created.id).toMatch(
 			/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
 		);
+		expect(created.status).toBe("pending");
 
 		const list = await app.inject({
 			method: "GET",
@@ -78,6 +79,16 @@ describe.skipIf(!shouldRunIntegration)("HTTP + Postgres (integration)", () => {
 			url: `/api/v1/events/${created.id}`,
 		});
 		expect(one.statusCode).toBe(200);
+
+		const confirm = await app.inject({
+			method: "PATCH",
+			url: `/api/v1/events/${created.id}`,
+			headers: { "content-type": "application/json" },
+			payload: JSON.stringify({ status: "confirmed" }),
+		});
+		expect(confirm.statusCode).toBe(200);
+		const confirmedBody = JSON.parse(confirm.body) as { status: string };
+		expect(confirmedBody.status).toBe("confirmed");
 
 		const del1 = await app.inject({
 			method: "DELETE",

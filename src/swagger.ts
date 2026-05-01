@@ -57,6 +57,10 @@ export const registerOpenApi = async (app: FastifyInstance): Promise<void> => {
 							providerName: { type: ["string", "null"] },
 							clinicId: { type: ["string", "null"] },
 							clinicName: { type: ["string", "null"] },
+							status: {
+								type: "string",
+								enum: ["pending", "confirmed", "canceled"],
+							},
 							isVideoConsultation: { type: "boolean" },
 							videoLink: { type: ["string", "null"] },
 							metadata: { type: "object", additionalProperties: true },
@@ -71,6 +75,7 @@ export const registerOpenApi = async (app: FastifyInstance): Promise<void> => {
 							"startDate",
 							"endDate",
 							"color",
+							"status",
 							"isVideoConsultation",
 							"metadata",
 							"createdAt",

@@ -1,0 +1,2 @@
+ALTER TABLE "events" ADD COLUMN "status" text DEFAULT 'pending' NOT NULL;--> statement-breakpoint
+ALTER TABLE "events" ADD CONSTRAINT "events_status_check" CHECK ("events"."status" IN ('pending', 'confirmed', 'canceled'));

@@ -5,6 +5,11 @@ export const colorEnum = {
 	enum: ["blue", "green", "red", "yellow", "purple", "orange"],
 };
 
+export const statusEnum = {
+	type: "string",
+	enum: ["pending", "confirmed", "canceled"],
+};
+
 export const apiEventSchema = {
 	type: "object",
 	description: "Calendar event (camelCase JSON)",
@@ -19,6 +24,7 @@ export const apiEventSchema = {
 		providerName: { type: ["string", "null"] },
 		clinicId: { type: ["string", "null"] },
 		clinicName: { type: ["string", "null"] },
+		status: statusEnum,
 		isVideoConsultation: { type: "boolean" },
 		videoLink: { type: ["string", "null"] },
 		metadata: { type: "object", additionalProperties: true },
@@ -33,6 +39,7 @@ export const apiEventSchema = {
 		"startDate",
 		"endDate",
 		"color",
+		"status",
 		"isVideoConsultation",
 		"metadata",
 		"createdAt",
@@ -122,6 +129,7 @@ export const createEventRequestBodySchema = {
 		providerName: { type: ["string", "null"] },
 		clinicId: { type: ["string", "null"] },
 		clinicName: { type: ["string", "null"] },
+		status: statusEnum,
 		isVideoConsultation: { type: "boolean" },
 		videoLink: { type: ["string", "null"] },
 		metadata: { type: "object", additionalProperties: true },

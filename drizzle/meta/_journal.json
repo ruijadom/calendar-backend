@@ -15,6 +15,13 @@
       "when": 1777489744203,
       "tag": "0001_sync_indexes",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777617141782,
+      "tag": "0002_rich_young_avengers",
+      "breakpoints": true
     }
   ]
 }

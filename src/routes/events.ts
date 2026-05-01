@@ -213,6 +213,7 @@ export const registerEventRoutes = (app: FastifyInstance): void => {
 					providerName: b.providerName ?? null,
 					clinicId: b.clinicId ?? null,
 					clinicName: b.clinicName ?? null,
+					status: b.status,
 					isVideoConsultation: b.isVideoConsultation,
 					videoLink: b.videoLink ?? null,
 					metadata: b.metadata ?? {},
@@ -319,6 +320,7 @@ export const registerEventRoutes = (app: FastifyInstance): void => {
 			if (b.providerName !== undefined) patch.providerName = b.providerName;
 			if (b.clinicId !== undefined) patch.clinicId = b.clinicId;
 			if (b.clinicName !== undefined) patch.clinicName = b.clinicName;
+			if (b.status !== undefined) patch.status = b.status;
 			if (b.isVideoConsultation !== undefined) {
 				patch.isVideoConsultation = b.isVideoConsultation;
 			}
@@ -365,7 +367,11 @@ export const registerEventRoutes = (app: FastifyInstance): void => {
 			}
 			const rows = await db()
 				.update(events)
-				.set({ deletedAt: new Date(), updatedAt: new Date() })
+				.set({
+					status: "canceled",
+					deletedAt: new Date(),
+					updatedAt: new Date(),
+				})
 				.where(and(eq(events.id, id), isNull(events.deletedAt)))
 				.returning({ id: events.id });
 			if (!rows.length) {

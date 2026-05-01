@@ -21,6 +21,10 @@ export const eventColors = [
 
 export type EventColor = (typeof eventColors)[number];
 
+export const eventStatuses = ["pending", "confirmed", "canceled"] as const;
+
+export type EventStatus = (typeof eventStatuses)[number];
+
 export const events = pgTable(
 	"events",
 	{
@@ -34,6 +38,7 @@ export const events = pgTable(
 		providerName: text("provider_name"),
 		clinicId: text("clinic_id"),
 		clinicName: text("clinic_name"),
+		status: text("status", { enum: eventStatuses }).notNull().default("pending"),
 		isVideoConsultation: boolean("is_video_consultation").notNull().default(false),
 		videoLink: text("video_link"),
 		metadata: jsonb("metadata")
@@ -52,6 +57,10 @@ export const events = pgTable(
 		check(
 			"events_color_check",
 			sql`${t.color} IN ('blue', 'green', 'red', 'yellow', 'purple', 'orange')`,
+		),
+		check(
+			"events_status_check",
+			sql`${t.status} IN ('pending', 'confirmed', 'canceled')`,
 		),
 		index("idx_events_active_range").on(t.startAt, t.endAt),
 		index("idx_events_deleted_at").on(t.deletedAt),

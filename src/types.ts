@@ -16,6 +16,7 @@ export type ApiEvent = {
 	providerName: string | null;
 	clinicId: string | null;
 	clinicName: string | null;
+	status: "pending" | "confirmed" | "canceled";
 	isVideoConsultation: boolean;
 	videoLink: string | null;
 	metadata: Record<string, unknown>;
@@ -35,6 +36,7 @@ export const rowToApiEvent = (row: EventRow): ApiEvent => ({
 	providerName: row.providerName,
 	clinicId: row.clinicId,
 	clinicName: row.clinicName,
+	status: row.status,
 	isVideoConsultation: row.isVideoConsultation,
 	videoLink: row.videoLink,
 	metadata:

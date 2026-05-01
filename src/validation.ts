@@ -8,6 +8,7 @@ const colorEnum = z.enum([
 	"purple",
 	"orange",
 ]);
+const statusEnum = z.enum(["pending", "confirmed", "canceled"]);
 
 const MIN_DURATION_MS = 15 * 60 * 1000;
 const MAX_DURATION_MS = 24 * 60 * 60 * 1000;
@@ -40,6 +41,7 @@ export const createEventBodySchema = z
 		providerName: z.string().optional().nullable(),
 		clinicId: z.string().optional().nullable(),
 		clinicName: z.string().optional().nullable(),
+		status: statusEnum.optional().default("pending"),
 		isVideoConsultation: z.boolean().optional().default(false),
 		videoLink: z
 			.union([z.string(), z.literal("")])
@@ -84,6 +86,7 @@ export const patchEventBodySchema = z
 		providerName: z.string().optional().nullable(),
 		clinicId: z.string().optional().nullable(),
 		clinicName: z.string().optional().nullable(),
+		status: statusEnum.optional(),
 		isVideoConsultation: z.boolean().optional(),
 		videoLink: z
 			.union([z.string(), z.literal("")])
